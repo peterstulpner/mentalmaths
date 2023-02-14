@@ -21,6 +21,8 @@ export default function HomeView() {
 
   const onRadioChange = (event) => {
     dispatch(toggleTimer());
+    setInputValue("");
+    setInputError(false);
   };
 
   const onInputChangeQuestions = (event) => {
@@ -147,6 +149,7 @@ export default function HomeView() {
             <Form.Input
               inline
               label={settings.usingTimer ? "Time: " : "Questions: "}
+              placeholder={settings.usingTimer ? "00:00" : "#"}
               type="text"
               onChange={
                 settings.usingTimer ? onInputChangeTime : onInputChangeQuestions
