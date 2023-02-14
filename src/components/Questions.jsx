@@ -8,7 +8,7 @@ import {
   setTimerTime,
 } from "../reducers/settingsReducer";
 
-export const MathsView = () => {
+export const Questions = () => {
   const dispatch = useDispatch();
   const {
     usingTimer,
@@ -24,7 +24,6 @@ export const MathsView = () => {
   const [questionValue, setQuestionValue] = useState("");
   const [question, setQuestion] = useState({});
   const [numAnswered, setNumAnswered] = useState(0);
-  const [elapsedTime, setElapsedTime] = useState(timerTime);
   const [excersizeComplete, setExcersizeComplete] = useState(false);
   const [correct, setCorrect] = useState(true);
 
@@ -35,26 +34,9 @@ export const MathsView = () => {
       questions.length - incorrectQuestions.length === numQuestions &&
       numQuestions !== 0
     ) {
-      dispatch(setTimerTime({ timerTime: elapsedTime }));
       setExcersizeComplete(true);
     }
   }, [questions, numQuestions]);
-
-  useEffect(() => {
-    const interval = setInterval(timerControl, 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  });
-
-  const timerControl = () => {
-    setElapsedTime(usingTimer ? elapsedTime - 1 : elapsedTime + 1);
-
-    if (usingTimer && elapsedTime - 1 === 0) {
-      setExcersizeComplete(true);
-    }
-  };
 
   useEffect(() => {
     if (timerTime === 0 && numQuestions === 0) {
@@ -159,43 +141,29 @@ export const MathsView = () => {
 
   return (
     <>
-      <Grid columns="3">
-        <Grid.Column></Grid.Column>
-        <Grid.Column>
-          <h1>Times Tables</h1>
-          <div>
-            <span style={{ fontSize: 30, paddingRight: 10, width: 300 }}>
-              {usingTimer
-                ? `Time Remaining: ${elapsedTime}`
-                : `Time Taken: ${elapsedTime}`}
-            </span>
-          </div>
-          <span style={{ fontSize: 30, paddingRight: 10, width: 300 }}>
-            {questionValue}
-          </span>
-          <Input
-            size="large"
-            style={{ width: 75 }}
-            onChange={onInputChange}
-            onKeyDown={onKeyDown}
-            value={correct ? inputValue : question.answer}
-            error={!correct}
-            enabled={correct}
-          />
-          {!correct && (
-            <>
-              <Button
-                onClick={() => {
-                  setCorrect(true);
-                }}
-              >
-                Click to Continue
-              </Button>
-            </>
-          )}
-        </Grid.Column>
-        <Grid.Column></Grid.Column>
-      </Grid>
+      <span style={{ fontSize: 30, paddingRight: 10, width: 300 }}>
+        {questionValue}
+      </span>
+      <Input
+        size="large"
+        style={{ width: 75 }}
+        onChange={onInputChange}
+        onKeyDown={onKeyDown}
+        value={correct ? inputValue : question.answer}
+        error={!correct}
+        enabled={correct}
+      />
+      {!correct && (
+        <>
+          <Button
+            onClick={() => {
+              setCorrect(true);
+            }}
+          >
+            Click to Continue
+          </Button>
+        </>
+      )}
     </>
   );
 };
