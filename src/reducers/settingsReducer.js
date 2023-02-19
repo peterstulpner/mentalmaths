@@ -13,6 +13,7 @@ const initState = {
   maxNum: 12,
   minNum: 1,
   incorrectQuestions: [],
+  excersizeComplete: false,
 };
 
 export const settingsSlice = createSlice({
@@ -37,6 +38,17 @@ export const settingsSlice = createSlice({
     addIncorrectQuestion: (state, { type, payload }) => {
       state.incorrectQuestions.push(payload.question);
     },
+    complete: (state, action) => {
+      state.excersizeComplete = true;
+    },
+    reset: (state, action) => {
+      state.questions = initState.questions;
+      state.usingTimer = initState.usingTimer;
+      state.excersizeComplete = false;
+      state.timerTime = 0;
+      state.numQuestions = 0;
+      state.numCorrect = 0;
+    },
   },
 });
 
@@ -47,6 +59,8 @@ export const {
   addQuestion,
   setTimerTime,
   addIncorrectQuestion,
+  complete,
+  reset,
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
