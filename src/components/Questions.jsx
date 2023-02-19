@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { Grid, Label, Input, Button } from "semantic-ui-react";
+import { Input, Button } from "semantic-ui-react";
 import {
   addIncorrectQuestion,
   addQuestion,
-  setTimerTime,
+  complete,
+  incrementCorrect,
 } from "../reducers/settingsReducer";
 
-export const Questions = () => {
+export const Questions = ({ setComplete }) => {
   const dispatch = useDispatch();
   const {
-    usingTimer,
-    timerTime,
     numQuestions,
     bannedQuestions,
     maxNum,
@@ -23,32 +21,16 @@ export const Questions = () => {
   const [inputValue, setInputValue] = useState("");
   const [questionValue, setQuestionValue] = useState("");
   const [question, setQuestion] = useState({});
-  const [numAnswered, setNumAnswered] = useState(0);
-  const [excersizeComplete, setExcersizeComplete] = useState(false);
   const [correct, setCorrect] = useState(true);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (
       questions.length - incorrectQuestions.length === numQuestions &&
       numQuestions !== 0
     ) {
-      setExcersizeComplete(true);
+      setComplete(true);
     }
   }, [questions, numQuestions]);
-
-  useEffect(() => {
-    if (timerTime === 0 && numQuestions === 0) {
-      navigate("/");
-    }
-  }, [timerTime, numQuestions, navigate]);
-
-  useEffect(() => {
-    if (excersizeComplete) {
-      navigate("/results");
-    }
-  }, [excersizeComplete]);
 
   useEffect(() => {
     if (questionValue === "") {
@@ -94,6 +76,8 @@ export const Questions = () => {
           },
         })
       );
+
+      if (inputValue === prevQuestion.answer) dispatch(incrementCorrect());
 
       if (inputValue !== prevQuestion.answer) {
         setCorrect(false);
@@ -141,12 +125,12 @@ export const Questions = () => {
 
   return (
     <>
-      <span style={{ fontSize: 30, paddingRight: 10, width: 300 }}>
+      <span style={{ fontSize: 100, paddingRight: 10, width: 300 }}>
         {questionValue}
       </span>
       <Input
         size="large"
-        style={{ width: 75 }}
+        style={{ fontSize: 100, width: 350 }}
         onChange={onInputChange}
         onKeyDown={onKeyDown}
         value={correct ? inputValue : question.answer}
@@ -159,6 +143,7 @@ export const Questions = () => {
             onClick={() => {
               setCorrect(true);
             }}
+            style={{ fontSize: 50 }}
           >
             Click to Continue
           </Button>

@@ -7,7 +7,15 @@ import { Results } from "./components/Results";
 
 function App() {
   return (
-    <div className="App">
+    <div
+      className="App"
+      style={{
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        transform: "translate(-50%, -50%)",
+      }}
+    >
       <Routes>
         <Route path="/" element={<HomeView />} />
         <Route path="/maths" element={<MathsView />} />
