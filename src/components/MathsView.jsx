@@ -1,53 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { Grid, Label, Input, Button } from "semantic-ui-react";
-import {
-  addIncorrectQuestion,
-  addQuestion,
-  complete,
-  setTimerTime,
-} from "../reducers/settingsReducer";
+import { complete, setTimerTime } from "../reducers/settingsReducer";
 import { Questions } from "./Questions";
 
 export const MathsView = () => {
   const dispatch = useDispatch();
-  const { usingTimer, timerTime, excersizeComplete, numQuestions } =
-    useSelector((state) => state.settings);
+  const { usingTimer, timerTime } = useSelector((state) => state.settings);
   const [elapsedTime, setElapsedTime] = useState(timerTime);
-
-  const [completeFromChild, setCompleteFromChild] = useState(false);
-
-  const navigate = useNavigate();
+  const [usingTimerLocal, setUsingTimerLocal] = useState(false);
+  // let interval;
 
   useEffect(() => {
-    if (timerTime === 0 && numQuestions === 0) {
-      navigate("/");
-    }
-  }, [timerTime, numQuestions, navigate]);
+    setUsingTimerLocal(usingTimer);
+  }, [usingTimer]);
 
+  console.log("This was called");
   useEffect(() => {
-    const interval = setInterval(timerControl, 1000);
+    console.log("And so was this");
+    let interval = setInterval(() => {
+      setElapsedTime(usingTimerLocal ? elapsedTime - 1 : elapsedTime + 1);
 
+      if (usingTimer && elapsedTime - 1 === 0) {
+        !usingTimer && dispatch(setTimerTime({ timerTime: elapsedTime }));
+        dispatch(complete());
+        clearInterval(interval);
+      }
+    }, 1000);
     return () => {
       clearInterval(interval);
     };
-  });
-
-  const timerControl = () => {
-    setElapsedTime(usingTimer ? elapsedTime - 1 : elapsedTime + 1);
-
-    if ((usingTimer && elapsedTime - 1 === 0) || completeFromChild) {
-      !usingTimer && dispatch(setTimerTime({ timerTime: elapsedTime }));
-      dispatch(complete());
-    }
-  };
-
-  useEffect(() => {
-    if (excersizeComplete) {
-      navigate("/results");
-    }
-  }, [excersizeComplete]);
+  }, []);
 
   return (
     <>
@@ -59,7 +41,7 @@ export const MathsView = () => {
             : `Time Taken: ${elapsedTime}`}
         </span>
       </div>
-      <Questions setComplete={setCompleteFromChild} />
+      <Questions />
     </>
   );
 };

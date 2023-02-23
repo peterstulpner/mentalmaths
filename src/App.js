@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import HomeView from "./components/HomeView";
 import { MathsView } from "./components/MathsView";
 import { Results } from "./components/Results";
+import { useSelector } from "react-redux";
 
 function App() {
   return (

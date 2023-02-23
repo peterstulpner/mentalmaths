@@ -27,6 +27,12 @@ export const settingsSlice = createSlice({
       state.numQuestions = payload.numQuestions;
     },
     incrementCorrect: (state, action) => {
+      state.incorrectQuestions = state.incorrectQuestions.map((question) => {
+        return {
+          ...question,
+          questionsSinceWrong: question.questionsSinceWrong + 1,
+        };
+      });
       state.numCorrect++;
     },
     addQuestion: (state, { type, payload }) => {
@@ -36,7 +42,13 @@ export const settingsSlice = createSlice({
       state.timerTime = payload.timerTime;
     },
     addIncorrectQuestion: (state, { type, payload }) => {
-      state.incorrectQuestions.push(payload.question);
+      state.incorrectQuestions.push({
+        ...payload.question,
+        questionsSinceWrong: 1,
+      });
+    },
+    removeIncorrectQuestion: (state, { type, payload }) => {
+      state.incorrectQuestions.pop();
     },
     complete: (state, action) => {
       state.excersizeComplete = true;
@@ -48,6 +60,7 @@ export const settingsSlice = createSlice({
       state.timerTime = 0;
       state.numQuestions = 0;
       state.numCorrect = 0;
+      state.incorrectQuestions = [];
     },
   },
 });
@@ -61,6 +74,7 @@ export const {
   addIncorrectQuestion,
   complete,
   reset,
+  removeIncorrectQuestion,
 } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
