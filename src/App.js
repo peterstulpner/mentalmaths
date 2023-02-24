@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import HomeView from "./components/HomeView";
 import { MathsView } from "./components/MathsView";
 import { Results } from "./components/Results";
+import { useSelector } from "react-redux";
 
 function App() {
   return (
@@ -11,9 +12,9 @@ function App() {
       className="App"
       style={{
         position: "absolute",
-        left: "50%",
-        top: "50%",
-        transform: "translate(-50%, -50%)",
+        width: "100%",
+        height: "100%",
+        background: "#33b0FF",
       }}
     >
       <Routes>

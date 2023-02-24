@@ -6,31 +6,51 @@ import {
   addQuestion,
   complete,
   incrementCorrect,
+  removeIncorrectQuestion,
 } from "../reducers/settingsReducer";
+import { useNavigate } from "react-router-dom";
 
-export const Questions = ({ setComplete }) => {
+export const Questions = () => {
   const dispatch = useDispatch();
   const {
+    timerTime,
     numQuestions,
     bannedQuestions,
     maxNum,
     minNum,
     questions,
     incorrectQuestions,
+    excersizeComplete,
   } = useSelector((state) => state.settings);
   const [inputValue, setInputValue] = useState("");
   const [questionValue, setQuestionValue] = useState("");
   const [question, setQuestion] = useState({});
   const [correct, setCorrect] = useState(true);
+  const [numQuestionsSinceLastAttempt, setNumQuestionsSinceLastAttempt] =
+    useState(0);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (timerTime === 0 && numQuestions === 0) {
+      navigate("/");
+    }
+  }, [timerTime, numQuestions, navigate]);
 
   useEffect(() => {
     if (
       questions.length - incorrectQuestions.length === numQuestions &&
       numQuestions !== 0
     ) {
-      setComplete(true);
+      dispatch(complete());
     }
   }, [questions, numQuestions]);
+
+  useEffect(() => {
+    if (excersizeComplete) {
+      navigate("/results");
+    }
+  }, [excersizeComplete]);
 
   useEffect(() => {
     if (questionValue === "") {
@@ -66,6 +86,19 @@ export const Questions = ({ setComplete }) => {
 
   const generateQuestion = () => {
     const prevQuestion = question;
+
+    for (var incorrectQuestion of incorrectQuestions) {
+      console.log("Incorrect Questin: ", incorrectQuestion);
+      if (incorrectQuestion.questionsSinceWrong === 3) {
+        let num1 = incorrectQuestion.num1;
+        let num2 = incorrectQuestion.num2;
+        setQuestionValue(`${num1} x ${num2} =`);
+        setQuestion({ num1, num2, answer: num1 * num2 });
+        console.log("USING PREVIOUSLY INCORRECT QUESTION");
+        dispatch(removeIncorrectQuestion());
+        return;
+      }
+    }
 
     if (prevQuestion.answer) {
       dispatch(
@@ -124,13 +157,21 @@ export const Questions = ({ setComplete }) => {
   };
 
   return (
-    <>
-      <span style={{ fontSize: 100, paddingRight: 10, width: 300 }}>
+    <div
+      style={{
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        transform: "translate(-50%, -50%)",
+        fontSize: 28,
+      }}
+    >
+      <span style={{ fontSize: 50, paddingRight: 10, width: 450 }}>
         {questionValue}
       </span>
       <Input
         size="large"
-        style={{ fontSize: 100, width: 350 }}
+        style={{ fontSize: 50, width: 200 }}
         onChange={onInputChange}
         onKeyDown={onKeyDown}
         value={correct ? inputValue : question.answer}
@@ -143,12 +184,12 @@ export const Questions = ({ setComplete }) => {
             onClick={() => {
               setCorrect(true);
             }}
-            style={{ fontSize: 50 }}
+            style={{ fontSize: 38 }}
           >
             Click to Continue
           </Button>
         </>
       )}
-    </>
+    </div>
   );
 };

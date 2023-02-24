@@ -127,19 +127,29 @@ export default function HomeView() {
   };
 
   return (
-    <div>
-      <h1>Times Tables</h1>
+    <div
+      style={{
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        transform: "translate(-50%, -50%)",
+        fontSize: 38,
+      }}
+    >
+      {/* <h1>Times Tables</h1> */}
       <div>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} style={{ fontSize: 38 }}>
           <Form.Group inline>
             <label>Format</label>
             <Form.Radio
               label="Time"
               checked={settings.usingTimer}
               onChange={onRadioChange}
+              style={{ fontSize: 38 }}
             />
             <Form.Radio
               label="Questions"
+              style={{ fontSize: 38 }}
               checked={!settings.usingTimer}
               onChange={onRadioChange}
             />
@@ -157,53 +167,17 @@ export default function HomeView() {
               inputError &&
               (settings.usingTimer ? "Max 10 minutes" : "Max 100 questions")
             }
+            style={{ fontSize: 38, width: 200 }}
           />
-          <Form.Button type="submit" disabled={inputValue.length === 0}>
+          <Form.Button
+            type="submit"
+            disabled={inputValue.length === 0}
+            style={{ fontSize: 38 }}
+          >
             Start
           </Form.Button>
         </Form>
       </div>
     </div>
   );
-  // <Grid columns="3" style={{ position: "fixed", top: "50%", left: "50%" }}>
-  //   <Grid.Column></Grid.Column>
-  //   <Grid.Column>
-  /* <h1>Times Tables</h1>
-        <div>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group inline>
-              <label>Format</label>
-              <Form.Radio
-                label="Time"
-                checked={settings.usingTimer}
-                onChange={onRadioChange}
-              />
-              <Form.Radio
-                label="Questions"
-                checked={!settings.usingTimer}
-                onChange={onRadioChange}
-              />
-            </Form.Group>
-            <Form.Input
-              inline
-              label={settings.usingTimer ? "Time: " : "Questions: "}
-              placeholder={settings.usingTimer ? "00:00" : "#"}
-              type="text"
-              onChange={
-                settings.usingTimer ? onInputChangeTime : onInputChangeQuestions
-              }
-              value={inputValue}
-              error={
-                inputError &&
-                (settings.usingTimer ? "Max 10 minutes" : "Max 100 questions")
-              }
-            />
-            <Form.Button type="submit" disabled={inputValue.length === 0}>
-              Start
-            </Form.Button>
-          </Form>
-        </div>
-      </Grid.Column>
-      <Grid.Column></Grid.Column>
-    </Grid> */
 }

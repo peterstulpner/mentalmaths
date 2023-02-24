@@ -28,45 +28,44 @@ export const Results = () => {
   }, [timerTime, numQuestions, navigate]);
 
   return (
-    <>
-      <Grid columns="3">
-        <Grid.Column></Grid.Column>
-        <Grid.Column>
-          <h1>Times Tables - Results</h1>
-          <div>
-            <span>
-              Elapsed Time: {timerTime}, Questions Answered: {questions.length},
-              Number Correct: {numCorrect}
-            </span>
-          </div>
-        </Grid.Column>
-        <Grid.Column></Grid.Column>
-        <Grid.Row>
-          <Grid.Column></Grid.Column>
-          <Grid.Column>
-            <Button
-              onClick={() => {
-                dispatch(reset());
-                navigate("/");
-              }}
-            >
-              {" "}
-              Start Again{" "}
-            </Button>
-            <Button
-              onClick={() => {
-                setShowTable(!showTable);
-              }}
-            >
-              {showTable ? "Hide full Results" : "See full Results"}
-            </Button>
-          </Grid.Column>
-          <Grid.Column></Grid.Column>
-        </Grid.Row>
-      </Grid>
+    <div
+      style={{
+        fontSize: 38,
+        left: "50%",
+        top: showTable ? "0" : "40%",
+        position: "absolute",
+        transform: "translate(-50%, 0)",
+        paddingRight: 10,
+        display: "inline",
+        padding: "10px",
+        lineHeight: "1.5em",
+        overflow: "auto",
+      }}
+    >
+      <div>
+        Elapsed Time: {timerTime}, Questions Answered: {questions.length},
+        Number Correct: {numCorrect}
+      </div>
+
+      <Button
+        onClick={() => {
+          dispatch(reset());
+          navigate("/");
+        }}
+      >
+        {" "}
+        Start Again{" "}
+      </Button>
+      <Button
+        onClick={() => {
+          setShowTable(!showTable);
+        }}
+      >
+        {showTable ? "Hide full Results" : "See full Results"}
+      </Button>
 
       {showTable && (
-        <Table celled padded>
+        <Table celled padded style={{ fontSize: 20, overflow: "auto" }}>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell singleLine>Question</Table.HeaderCell>
@@ -95,6 +94,6 @@ export const Results = () => {
           </Table.Body>
         </Table>
       )}
-    </>
+    </div>
   );
 };
