@@ -14,11 +14,11 @@ export const MathsView = () => {
     setUsingTimerLocal(usingTimer);
   }, [usingTimer]);
 
-  console.log("This was called");
   useEffect(() => {
-    console.log("And so was this");
     let interval = setInterval(() => {
-      setElapsedTime(usingTimerLocal ? elapsedTime - 1 : elapsedTime + 1);
+      setElapsedTime((prevElapsedTime) =>
+        usingTimerLocal ? prevElapsedTime - 1 : prevElapsedTime + 1
+      );
 
       if (usingTimer && elapsedTime - 1 === 0) {
         !usingTimer && dispatch(setTimerTime({ timerTime: elapsedTime }));
@@ -29,14 +29,23 @@ export const MathsView = () => {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [elapsedTime, usingTimerLocal, usingTimer]);
 
   return (
     <>
-      <h1>Times Tables</h1>
       <div>
-        <span style={{ fontSize: 30, paddingRight: 10, width: 300 }}>
-          {usingTimer
+        <span
+          style={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            transform: "translate(-50%, 0)",
+            fontSize: 28,
+            paddingRight: 10,
+            width: 300,
+          }}
+        >
+          {usingTimerLocal
             ? `Time Remaining: ${elapsedTime}`
             : `Time Taken: ${elapsedTime}`}
         </span>

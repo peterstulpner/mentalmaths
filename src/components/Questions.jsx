@@ -157,13 +157,21 @@ export const Questions = () => {
   };
 
   return (
-    <>
-      <span style={{ fontSize: 100, paddingRight: 10, width: 450 }}>
+    <div
+      style={{
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        transform: "translate(-50%, -50%)",
+        fontSize: 28,
+      }}
+    >
+      <span style={{ fontSize: 50, paddingRight: 10, width: 450 }}>
         {questionValue}
       </span>
       <Input
         size="large"
-        style={{ fontSize: 100, width: 450 }}
+        style={{ fontSize: 50, width: 200 }}
         onChange={onInputChange}
         onKeyDown={onKeyDown}
         value={correct ? inputValue : question.answer}
@@ -176,12 +184,12 @@ export const Questions = () => {
             onClick={() => {
               setCorrect(true);
             }}
-            style={{ fontSize: 50 }}
+            style={{ fontSize: 38 }}
           >
             Click to Continue
           </Button>
         </>
       )}
-    </>
+    </div>
   );
 };
