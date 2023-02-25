@@ -94,6 +94,14 @@ export const Questions = () => {
         let num2 = incorrectQuestion.num2;
         setQuestionValue(`${num1} x ${num2} =`);
         setQuestion({ num1, num2, answer: num1 * num2 });
+        dispatch(
+          addQuestion({
+            question: {
+              ...prevQuestion,
+              correct: inputValue === prevQuestion.answer,
+            },
+          })
+        );
         console.log("USING PREVIOUSLY INCORRECT QUESTION");
         dispatch(removeIncorrectQuestion());
         return;
@@ -166,12 +174,12 @@ export const Questions = () => {
         fontSize: 28,
       }}
     >
-      <span style={{ fontSize: 50, paddingRight: 10, width: 450 }}>
+      <span style={{ fontSize: 70, paddingRight: 10, width: 450 }}>
         {questionValue}
       </span>
       <Input
         size="large"
-        style={{ fontSize: 50, width: 200 }}
+        style={{ fontSize: 70, width: 275 }}
         onChange={onInputChange}
         onKeyDown={onKeyDown}
         value={correct ? inputValue : question.answer}
