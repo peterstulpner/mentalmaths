@@ -48,7 +48,7 @@ export const settingsSlice = createSlice({
       });
     },
     removeIncorrectQuestion: (state, { type, payload }) => {
-      state.incorrectQuestions.pop();
+      state.incorrectQuestions.shift();
     },
     complete: (state, action) => {
       state.excersizeComplete = true;

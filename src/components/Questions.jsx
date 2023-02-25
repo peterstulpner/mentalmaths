@@ -38,10 +38,7 @@ export const Questions = () => {
   }, [timerTime, numQuestions, navigate]);
 
   useEffect(() => {
-    if (
-      questions.length - incorrectQuestions.length === numQuestions &&
-      numQuestions !== 0
-    ) {
+    if (questions.length >= numQuestions && numQuestions !== 0) {
       dispatch(complete());
     }
   }, [questions, numQuestions]);
@@ -87,8 +84,9 @@ export const Questions = () => {
   const generateQuestion = () => {
     const prevQuestion = question;
 
+    console.log("Checking incorrect question bank: ");
     for (var incorrectQuestion of incorrectQuestions) {
-      console.log("Incorrect Questin: ", incorrectQuestion);
+      console.log("Incorrect Question: ", incorrectQuestion);
       if (incorrectQuestion.questionsSinceWrong === 3) {
         let num1 = incorrectQuestion.num1;
         let num2 = incorrectQuestion.num2;
