@@ -83,6 +83,30 @@ export const Questions = () => {
 
   const generateQuestion = () => {
     const prevQuestion = question;
+    console.log("Previous Question: ", prevQuestion);
+
+    if (prevQuestion.answer) {
+      dispatch(
+        addQuestion({
+          question: {
+            ...prevQuestion,
+            correct: inputValue === prevQuestion.answer,
+          },
+        })
+      );
+
+      if (inputValue === question.answer) {
+        setCorrect(true);
+      } else {
+        setCorrect(false);
+        dispatch(
+          addIncorrectQuestion({
+            question: prevQuestion,
+          })
+        );
+        return;
+      }
+    }
 
     console.log("Checking incorrect question bank: ");
     for (var incorrectQuestion of incorrectQuestions) {
@@ -106,33 +130,7 @@ export const Questions = () => {
       }
     }
 
-    if (prevQuestion.answer) {
-      dispatch(
-        addQuestion({
-          question: {
-            ...prevQuestion,
-            correct: inputValue === prevQuestion.answer,
-          },
-        })
-      );
-
-      if (inputValue === prevQuestion.answer) dispatch(incrementCorrect());
-
-      if (inputValue !== prevQuestion.answer) {
-        setCorrect(false);
-        dispatch(
-          addIncorrectQuestion({
-            question: prevQuestion,
-          })
-        );
-        return;
-      } else {
-        setCorrect(true);
-      }
-    }
-
     let questionGenerated = false;
-
     let num1 = Math.floor(Math.random() * maxNum) + minNum;
     let num2 = Math.floor(Math.random() * maxNum) + minNum;
 
