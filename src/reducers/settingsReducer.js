@@ -36,6 +36,16 @@ export const settingsSlice = createSlice({
       state.numCorrect++;
     },
     addQuestion: (state, { type, payload }) => {
+      if (payload.question.correct) {
+        console.log("here");
+        state.incorrectQuestions = state.incorrectQuestions.map((question) => {
+          return {
+            ...question,
+            questionsSinceWrong: question.questionsSinceWrong + 1,
+          };
+        });
+        state.numCorrect++;
+      }
       state.questions.push(payload.question);
     },
     setTimerTime: (state, { type, payload }) => {
