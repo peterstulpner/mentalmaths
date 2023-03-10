@@ -140,7 +140,7 @@ export default function HomeView() {
       <div>
         <Form onSubmit={handleSubmit} style={{ fontSize: 38 }}>
           <Form.Group inline>
-            <label>Format</label>
+            <label>Format: </label>
             <Form.Radio
               label="Time"
               checked={settings.usingTimer}

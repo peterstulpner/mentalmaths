@@ -108,10 +108,16 @@ export const Questions = () => {
       }
     }
 
-    console.log("Checking incorrect question bank: ");
+    console.log(
+      "Checking incorrect question bank: Num incorrect: ",
+      incorrectQuestions.length
+    );
     for (var incorrectQuestion of incorrectQuestions) {
       console.log("Incorrect Question: ", incorrectQuestion);
-      if (incorrectQuestion.questionsSinceWrong === 3) {
+      if (
+        incorrectQuestion.questionsSinceWrong % 3 === 0 &&
+        incorrectQuestion.questionsSinceWrong < 10
+      ) {
         let num1 = incorrectQuestion.num1;
         let num2 = incorrectQuestion.num2;
         setQuestionValue(`${num1} x ${num2} =`);
@@ -125,7 +131,6 @@ export const Questions = () => {
           })
         );
         console.log("USING PREVIOUSLY INCORRECT QUESTION");
-        dispatch(removeIncorrectQuestion());
         return;
       }
     }
@@ -183,7 +188,7 @@ export const Questions = () => {
         enabled={correct}
       />
       {!correct && (
-        <>
+        <div style={{ paddingTop: 10 }}>
           <Button
             onClick={() => {
               setCorrect(true);
@@ -192,7 +197,7 @@ export const Questions = () => {
           >
             Click to Continue
           </Button>
-        </>
+        </div>
       )}
     </div>
   );
