@@ -37,7 +37,6 @@ export const settingsSlice = createSlice({
     },
     addQuestion: (state, { type, payload }) => {
       if (payload.question.correct) {
-        console.log("here");
         state.incorrectQuestions = state.incorrectQuestions.map((question) => {
           return {
             ...question,
@@ -58,7 +57,14 @@ export const settingsSlice = createSlice({
       });
     },
     removeIncorrectQuestion: (state, { type, payload }) => {
-      state.incorrectQuestions.shift();
+      console.log("Removing incorrect question: ", payload);
+      state.incorrectQuestions = state.incorrectQuestions.filter(
+        (question) =>
+          question.num1 !== payload.num1 && question.num2 !== payload.num2
+      );
+
+      console.log("New Incorrect array: ", state.incorrectQuestions);
+      // state.incorrectQuestions.shift();
     },
     complete: (state, action) => {
       state.excersizeComplete = true;
