@@ -82,6 +82,7 @@ export const Questions = () => {
   };
 
   const generateQuestion = () => {
+    console.log("Generating new question =========");
     const prevQuestion = question;
     console.log("Previous Question: ", prevQuestion);
 
@@ -113,24 +114,24 @@ export const Questions = () => {
       incorrectQuestions.length
     );
     for (var incorrectQuestion of incorrectQuestions) {
-      console.log("Incorrect Question: ", incorrectQuestion);
       if (
         incorrectQuestion.questionsSinceWrong % 3 === 0 &&
-        incorrectQuestion.questionsSinceWrong < 10
+        incorrectQuestion.questionsSinceWrong < 10 &&
+        incorrectQuestion.questionsSinceWrong > 0
       ) {
+        console.log("Using Incorrect Question: ", incorrectQuestion);
         let num1 = incorrectQuestion.num1;
         let num2 = incorrectQuestion.num2;
         setQuestionValue(`${num1} x ${num2} =`);
         setQuestion({ num1, num2, answer: num1 * num2 });
-        dispatch(
-          addQuestion({
-            question: {
-              ...prevQuestion,
-              correct: inputValue === prevQuestion.answer,
-            },
-          })
-        );
-        console.log("USING PREVIOUSLY INCORRECT QUESTION");
+        // dispatch(
+        //   addQuestion({
+        //     question: {
+        //       ...prevQuestion,
+        //       correct: inputValue === prevQuestion.answer,
+        //     },
+        //   })
+        // );
         return;
       }
     }
@@ -155,6 +156,18 @@ export const Questions = () => {
           } else {
             num1 = Math.floor(Math.random() * maxNum) + minNum;
           }
+        }
+      });
+
+      // eslint-disable-next-line no-loop-func
+      incorrectQuestions.forEach((question) => {
+        if (
+          (num1 === question.num1 && num2 === question.num2) ||
+          (num2 === question.num1 && num1 === question.num2)
+        ) {
+          num1 = Math.floor(Math.random() * maxNum) + minNum;
+          num2 = Math.floor(Math.random() * maxNum) + minNum;
+          questionGenerated = false;
         }
       });
     }
