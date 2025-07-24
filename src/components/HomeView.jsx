@@ -136,7 +136,7 @@ export default function HomeView() {
         fontSize: 38,
       }}
     >
-      {/* <h1>Times Tables</h1> */}
+      <h1 style={{fontSize: 50, paddingBottom: 100}}>Times Tables Practice</h1>
       <div>
         <Form onSubmit={handleSubmit} style={{ fontSize: 38 }}>
           <Form.Group inline>
