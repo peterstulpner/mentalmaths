@@ -14,6 +14,7 @@ const initState = {
   minNum: 1,
   incorrectQuestions: [],
   excersizeComplete: false,
+  defaultNumQuestions: 10
 };
 
 export const settingsSlice = createSlice({

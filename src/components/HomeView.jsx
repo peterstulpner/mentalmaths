@@ -136,24 +136,24 @@ export default function HomeView() {
         fontSize: 38,
       }}
     >
-      <h1 style={{fontSize: 50, paddingBottom: 100}}>Times Tables Practice</h1>
+      <h1 style={{fontSize: 50, paddingBottom: 100, alignContent: 'center'}}>Times Tables Practice</h1>
       <div>
         <Form onSubmit={handleSubmit} style={{ fontSize: 38 }}>
-          <Form.Group inline>
-            <label>Format: </label>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Form.Group inline style ={{ alignItems: 'center' }}>
+            <span style={{ fontSize: 38, paddingRight:50}}>Time</span>
             <Form.Radio
-              label="Time"
-              checked={settings.usingTimer}
-              onChange={onRadioChange}
-              style={{ fontSize: 38 }}
-            />
-            <Form.Radio
-              label="Questions"
-              style={{ fontSize: 38 }}
               checked={!settings.usingTimer}
               onChange={onRadioChange}
+              slider={true}
             />
+            <span style={{ fontSize: 38 }}>Questions</span>
           </Form.Group>
+          </div>
           <Form.Input
             inline
             label={settings.usingTimer ? "Time: " : "Questions: "}
@@ -172,7 +172,7 @@ export default function HomeView() {
           <Form.Button
             type="submit"
             disabled={inputValue.length === 0}
-            style={{ fontSize: 38 }}
+            style={{ fontSize: 38, borderRadius: '2rem'}}
           >
             Start
           </Form.Button>

@@ -21,6 +21,7 @@ export const Questions = () => {
     questions,
     incorrectQuestions,
     excersizeComplete,
+    numCorrect
   } = useSelector((state) => state.settings);
   const [inputValue, setInputValue] = useState("");
   const [questionValue, setQuestionValue] = useState("");
@@ -38,7 +39,7 @@ export const Questions = () => {
   }, [timerTime, numQuestions, navigate]);
 
   useEffect(() => {
-    if (questions.length >= numQuestions && numQuestions !== 0) {
+    if (numCorrect >= numQuestions && numQuestions !== 0) {
       dispatch(complete());
     }
   }, [questions, numQuestions]);
@@ -181,37 +182,64 @@ export const Questions = () => {
   return (
     <div
       style={{
-        position: "absolute",
-        left: "50%",
-        top: "50%",
-        transform: "translate(-50%, -50%)",
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+        display: 'flex',
+        flexWrap: 'wrap', // allows wrapping if needed
+        alignItems: 'center', // key to fix vertical alignment
+        justifyContent: 'center',
+        columnGap: 20,
+        rowGap: 40,
         fontSize: 28,
+        maxWidth: '90vw',
+        textAlign: 'center',
       }}
     >
-      <span style={{ fontSize: 70, paddingRight: 10, width: 450 }}>
+      <span
+        style={{
+          fontSize: 70,
+          paddingRight: 10,
+          flex: '0 1 auto',
+          whiteSpace: 'nowrap', // keeps the label on one line
+        }}
+      >
         {questionValue}
       </span>
-      <Input
-        size="large"
-        style={{ fontSize: 70, width: 275 }}
-        onChange={onInputChange}
-        onKeyDown={onKeyDown}
-        value={correct ? inputValue : question.answer}
-        error={!correct}
-        enabled={correct}
-      />
+
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <Input
+          size="large"
+          style={{
+            fontSize: 70,
+            width: 275,
+            flex: '0 1 auto',
+          }}
+          onChange={onInputChange}
+          onKeyDown={onKeyDown}
+          value={correct ? inputValue : question.answer}
+          error={!correct}
+          enabled={correct}
+        />
+      </div>
+
       {!correct && (
-        <div style={{ paddingTop: 10 }}>
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
           <Button
-            onClick={() => {
-              setCorrect(true);
-            }}
-            style={{ fontSize: 38 }}
+            onClick={() => setCorrect(true)}
+            style={{ fontSize: 38, marginTop: 10 }}
           >
             Click to Continue
           </Button>
         </div>
       )}
     </div>
+
   );
 };

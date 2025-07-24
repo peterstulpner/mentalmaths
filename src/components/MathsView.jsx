@@ -6,7 +6,7 @@ import Tooltip from "./ToolTip";
 
 export const MathsView = () => {
   const dispatch = useDispatch();
-  const { usingTimer, timerTime, questions, numQuestions } = useSelector(
+  const { usingTimer, timerTime, questions, numQuestions, numCorrect } = useSelector(
     (state) => state.settings
   );
   const [elapsedTime, setElapsedTime] = useState(timerTime);
@@ -59,7 +59,7 @@ export const MathsView = () => {
           >
             {usingTimerLocal
               ? `Time Remaining: ${elapsedTime}`
-              : `Questions Remaining: ${numQuestions - questions.length}`}
+              : `Questions Remaining: ${numQuestions - numCorrect}`}
           </span>
         </Tooltip>
       </div>

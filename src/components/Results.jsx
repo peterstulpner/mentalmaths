@@ -65,6 +65,12 @@ export const Results = () => {
       </Button>
 
       {showTable && (
+        <div
+        style={{
+          maxHeight: questions.length > 10 ? '400px' : 'auto',
+          overflowY: questions.length > 10 ? 'auto' : 'visible',
+          border: questions.length > 10 ? '1px solid #ccc' : 'none',
+    }}>
         <Table celled padded style={{ fontSize: 20, overflow: "auto" }}>
           <Table.Header>
             <Table.Row>
@@ -93,6 +99,7 @@ export const Results = () => {
             })}
           </Table.Body>
         </Table>
+        </div>
       )}
     </div>
   );
